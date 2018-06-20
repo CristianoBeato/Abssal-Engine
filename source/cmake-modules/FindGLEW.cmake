@@ -1,0 +1,36 @@
+set(GLEW_ROOT_DIR CACHE PATH "GLEW root directory")
+
+# Find path of each library
+find_path(GLEW_INCLUDE_DIR
+	NAMES
+		GL/glew.h
+	HINTS ${GLEW_ROOT_DIR}/include
+	)
+	
+find_path(
+	GLEW_BINARY_DIRS
+	NAMES glew32.lib glew32s.lib
+	HINTS ${GLEW_ROOT_DIR}/lib
+	PATHS /usr/local/lib/
+)
+
+FIND_LIBRARY(
+	GLEW_LIBRARY
+	NAMES glew32 glew32s glew32mx glew32mxs
+	HINTS ${GLEW_ROOT_DIR}/lib 
+	PATHS /usr/local/lib/
+)
+
+IF (GLEW_INCLUDE_DIR AND GLEW_LIBRARY AND GLEW_BINARY_DIRS)
+    SET(GLEW_FOUND TRUE)
+ENDIF (GLEW_INCLUDE_DIR AND GLEW_LIBRARY AND GLEW_BINARY_DIRS)
+
+IF (GLEW_FOUND)
+    IF (NOT GLEW_FIND_QUIETLY)
+        MESSAGE(STATUS "Found Open GL Extension Wrangler library: ${GLEW_LIBRARY}")
+    ENDIF (NOT GLEW_FIND_QUIETLY)
+ELSE (GLEW_FOUND)
+    IF (GLEW_FIND_REQUIRED)
+        MESSAGE(FATAL_ERROR "GLEW library")
+    ENDIF (GLEW_FIND_REQUIRED)
+ENDIF (GLEW_FOUND)
