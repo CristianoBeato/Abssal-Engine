@@ -95,6 +95,11 @@ file(GLOB RENDER_SOURCES render/*.cpp)
 source_group("render" FILES ${RENDER_INCLUDES})
 source_group("render" FILES ${RENDER_SOURCES})
 
+file(GLOB RENDER_GEOMETRY_INCLUDES render/geometry/*.h)
+file(GLOB RENDER_GEOMETRY_SOURCES render/geometry/*.cpp)
+source_group("render\\geometry" FILES ${RENDER_GEOMETRY_INCLUDES})
+source_group("render\\geometry" FILES ${RENDER_GEOMETRY_SOURCES})
+
 file(GLOB RENDER_GUI_INCLUDES render/gui/*.h)
 file(GLOB RENDER_GUI_SOURCES render/gui/*.cpp)
 source_group("render\\gui" FILES ${RENDER_GUI_INCLUDES})
@@ -110,6 +115,11 @@ file(GLOB RENDER_TEXT_SOURCES render/text/*.cpp)
 source_group("render\\text" FILES ${RENDER_TEXT_INCLUDES})
 source_group("render\\text" FILES ${RENDER_TEXT_SOURCES})
 
+file(GLOB RENDER_SHADER_INCLUDES render/shader/*.h)
+file(GLOB RENDER_SHADER_SOURCES render/shader/*.cpp)
+source_group("render\\shader" FILES ${RENDER_SHADER_INCLUDES})
+source_group("render\\shader" FILES ${RENDER_SHADER_SOURCES})
+
 set( ENGINE_INCLUDES_ALL 
 	${ENGINE_INCLUDES}
 	${SYS_INCLUDES}
@@ -121,9 +131,11 @@ set( ENGINE_INCLUDES_ALL
 	${FRAMEWORK_INCLUDES}
 	${GAMELOGIC_INCLUDES}
 	${RENDER_INCLUDES}
+	${RENDER_GEOMETRY_INCLUDES}
 	${RENDER_GUI_INCLUDES}
 	${RENDER_IMAGE_INCLUDES}
 	${RENDER_TEXT_INCLUDES}
+	${RENDER_SHADER_INCLUDES}
 	${CONTRIB_INCLUDES}
 	)
 
@@ -139,9 +151,11 @@ set( ENGINE_SOURCES_ALL
 	${GAMELOGIC_SOURCES}
 	${RENDER_SOURCES}
 	${RENDER_SOURCES}
+	${RENDER_GEOMETRY_SOURCES}	
 	${RENDER_GUI_SOURCES}
 	${RENDER_IMAGE_SOURCES}
 	${RENDER_TEXT_SOURCES}
+	${RENDER_SHADER_SOURCES}
 	${CONTRIB_SOURCES}
 	)
 
