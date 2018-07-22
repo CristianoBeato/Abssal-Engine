@@ -14,12 +14,15 @@ btGuiBase::~btGuiBase(void)
 
 void btGuiBase::create(void)
 {
+	//create the mouse pointer
 	m_guiPointer = new btFrame("pointer", NULL, 
 		glm::vec2(0.1f, 0.1f), glm::vec2(0.0f, 0.0f), 
-		glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+		btColorApha(115, 111, 128, 255));
+
+	//create the base frame
 	m_guiFrameBase = new btFrame("MainFrame", NULL,
 		glm::vec2(0.1f, 0.1f), glm::vec2(0.0f, 0.0f),
-		glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		glm::vec4(255, 255, 0, 255));
 }
 
 void btGuiBase::load(const std::string guiPath)

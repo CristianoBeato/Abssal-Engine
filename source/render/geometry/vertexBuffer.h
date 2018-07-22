@@ -42,7 +42,7 @@ private:
 	btVertexAttrib	* m_location;
 };
 
-class btVertexBuffer
+class btVertexBuffer  : public btRefObj
 {
 public:
 	btVertexBuffer(void);
@@ -74,6 +74,23 @@ private:
 	GLuint	m_vertexArrayId;
 	GLuint	m_vertexBufferId;
 	GLuint	m_elementBufferId;
+};
+
+class btDrawBuffer : public btRefObj
+{
+public:
+	btDrawBuffer(void);
+	btDrawBuffer(const Uint32 numIndices, const Uint32 numIntances = 0, const Uint32 baseIndex = 0, const Uint32 baseVert = 0);
+	~btDrawBuffer(void);
+
+	void	clear(void);
+	void	draw(GLenum mode = GL_TRIANGLE_FAN);
+
+private:
+	GLuint		m_baseVertex;
+	GLuint		m_baseIndex;
+	GLuint		m_numIndexes;
+	GLuint		m_numIntances;
 };
 
 #endif // !_VERTEX_BUFFER_H_

@@ -123,7 +123,7 @@ public:
 	~btIntrusivePtr(void);
 
 	// check if the pointer is valid
-	bool	validade(void) const;
+	bool	validate(void) const;
 
 	//manualy clear the ptr
 	void clear(void);
@@ -175,7 +175,7 @@ inline btIntrusivePtr<T>::~btIntrusivePtr(void)
 }
 
 template<typename T>
-inline bool btIntrusivePtr<T>::validade(void) const
+inline bool btIntrusivePtr<T>::validate(void) const
 {
 	return m_ptr != nullptr;
 }

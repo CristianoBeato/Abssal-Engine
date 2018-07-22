@@ -45,7 +45,8 @@ void btSDLFont::clear(void)
 
 void btSDLFont::renderTextToImage(btIntrusivePtr<btRenderText> text, Uint8 Quality)
 {
-	btIntrusivePtr<SDL_Surface>	textSurface;
+	//btIntrusivePtr<SDL_Surface>	textSurface;
+	btSmartPtr<SDL_Surface>	textSurface = btSmartPtr<SDL_Surface>(nullptr);;
 
 	//if not loaded don't do anithing 
 	if(m_loaded)

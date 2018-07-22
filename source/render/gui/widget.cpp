@@ -63,7 +63,7 @@ btIntrusivePtr<btWidget> btWidget::getWidget(const std::string name)
 void btWidget::attachWidget(btIntrusivePtr<btWidget> widget)
 {
 	//sanity check
-	if (!widget.validade())
+	if (!widget.validate())
 		return;
 
 	//TODO: check if already in the cildrens 
@@ -82,10 +82,11 @@ void btWidget::removeWidget(btIntrusivePtr<btWidget> widget)
 
 void btWidget::clear(void)
 {
-	for (auto child : m_childrens)
+	std::map<std::string, btIntrusivePtr<btWidget>>::iterator child;
+	for (child = m_childrens.begin(); child != m_childrens.end(); child++)
 	{
-		if (child.second.validade())
-			child.second->clear();
+		if (child->second.validate())
+			child->second->clear();
 	}
 
 	m_childrens.clear();
@@ -95,7 +96,7 @@ void btWidget::draw(void)
 {
 	for (auto child : m_childrens)
 	{
-		if (child.second.validade())
+		if (child.second.validate())
 			child.second->draw();
 	}
 }

@@ -1,10 +1,10 @@
 <shaderControl>
 	<shaderProgram name="spriteFrame">
-		<shader type="vertex">"sprites.vs"</vertexShader>
-		<shader type="pixel">"spritesColor.fs"</vertexShader>
+		<shader type="vertex" source="sprites.vs"/>
+		<shader type="pixel" source="spritesColor.fs"/>
 	</shaderProgram>
 	<shaderProgram name="spritesTextured">
-		<shader type="vertex">"sprites.vs"</shader>
-		<shader type="pixel">"spritesTextured.fs"</shader>
+		<shader type="vertex" source="sprites.vs"/>
+		<shader type="pixel" source="spritesTextured.fs"/>
 	</shaderProgram>
 </shaderControl>

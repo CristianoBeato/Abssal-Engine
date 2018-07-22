@@ -4,20 +4,15 @@
 
 #include "frame.h"
 
-static const GLfloat k_positions[16] =
-{
-	//pos			//coord
-	-1.0f, -1.0f,	0.0f, 0.0f,
-	 1.0f, -1.0f,	1.0f, 0.0f,
-	 1.0f,  1.0f,	1.0f, 1.0f,
-	-1.0f,	1.0f,	0.0f, 1.0f
-};
+//positions				//text coord
+const static GLfloat verts[20] = { -1.0f, -1.0f, 0.0f,		0.0, 0.0f,
+1.0f, -1.0f, 0.0f,		1.0, 0.0f,
+1.0f,  1.0f, 0.0f,		1.0, 1.0f,
+-1.0f,	1.0f, 0.0f,		0.0, 1.0f };
 
-//we need define 5 to draw the line strip from the border
-static const GLushort k_indices[5] = 
-{
-	0, 1, 2, 3, 0
-};
+const static GLuint	indices[6] = { 0, 1 , 2,
+2, 0, 1 };
+
 
 btFrame::btFrame(void) : btWidget()
 {
@@ -26,32 +21,30 @@ btFrame::btFrame(void) : btWidget()
 btFrame::btFrame(std::string name, btWidget * parent, 
 	glm::vec2 size, 
 	glm::vec2 pos,
-	glm::vec4 color, 
-	glm::vec4 borderColor, 
+	btColorApha color,
+	btColorApha borderColor,
 	float bordersize,
 	Uint32 options): btWidget(name, parent, size, pos, options),
 	m_bgColor(color),
 	m_borderColor(borderColor),
 	m_borderSize(bordersize)
 {
-	btVertexAttrib vpos(0);
-	btVertexAttrib tcoord(1);
+	//create the frame surface
+	btIntrusivePtr<btVertexBuffer> newVBuff(new btVertexBuffer);
+	btIntrusivePtr<btDrawBuffer> newMbuff(new btDrawBuffer(6));
+	//generate the vertex bufers
+	newVBuff->genBuffer();
+
+	//put data in buffer
+	//newVBuff->fillBufferData(indices, verts);
+	newVBuff->fillBufferData(indices, nullptr);
 	
-	//gen the buffer
-	m_FrameGeometry = btVertexBuffer();
-	m_FrameGeometry.genBuffer();
+	//setup buffer data reference
+	newVBuff->bindVertexBuffer();
 
-	//append the buffed data 
-	m_FrameGeometry.fillBufferData(k_indices, k_positions);
+	newVBuff->unbindVertexBuffer();
 
-	m_FrameGeometry.bind();
-	m_FrameGeometry.bindVertexBuffer();
-	{
-		btVertAttribLock v(&vpos), t(&tcoord);
-		vpos.setPoiner(2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)0);
-		vpos.setPoiner(2, GL_FLOAT, GL_FALSE, 2 * sizeof(GLfloat), (GLvoid*)(2 * sizeof(GLfloat)));
-	}
-	m_FrameGeometry.unbind();
+	m_surface = btIntrusivePtr<btRenderSuface>(new btRenderSuface(newVBuff, newMbuff));
 }
 
 btFrame::~btFrame(void)
@@ -60,26 +53,20 @@ btFrame::~btFrame(void)
 
 void btFrame::clear(void)
 {
-	m_FrameGeometry.clear();
 }
 
 void btFrame::draw(void)
 {
-	//we do here beceuse whe need to draw texture properly
-	btVertexAttrib vpos(0);
-	btVertexAttrib tcoord(1);
-	btVertexAttrib color(2);
-
-	btWidget::draw();
+	//send frame to the renderer
+//	gRendererGlobal.renderRectColor(m_position.x, m_position.y, m_size.x, m_size.y, m_bgColor, 0);
 	
-	//TODO: Draw Wiget Here
-	m_FrameGeometry.bind();
-	{
-		btVertAttribLock v(&vpos), t(&tcoord);
-		glDrawElements(GL_QUADS, 4, GL_UNSIGNED_SHORT, (void*)0);
-	}
-	m_FrameGeometry.unbind();
+	//present to the renderer 
+	m_surface->setPosition(m_position.x, m_position.y, 0.0f);
+	m_surface->setSize(m_size.x, m_size.y, 0.0f);
+	m_surface->setColor(m_bgColor);
+	gRendererGlobal.appendRenderSurface(m_surface);
 
+	/*
 	//draw the borders 
 	if( m_borderSize > 0.0f)
 	{
@@ -96,4 +83,5 @@ void btFrame::draw(void)
 		//set defalt line size
 		glLineWidth(1.0f);
 	}
+	*/
 }

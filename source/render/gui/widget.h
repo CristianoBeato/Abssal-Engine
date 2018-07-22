@@ -87,6 +87,9 @@ protected:
 	virtual void	handleMouseEnter(){};
 	virtual void	handleMouseExit(){};
 	
+	glm::vec2		m_position;
+	glm::vec2		m_size;
+
 private:
 	void	handleMouse(glm::ivec2 pos, Uint32 event);
 	void	onClick(void);
@@ -102,8 +105,6 @@ private:
 	std::string							m_name;
 	btIntrusivePtr<btWidget>			m_parent;
 	std::map<std::string, btIntrusivePtr<btWidget>>	m_childrens;
-	glm::vec2							m_position;
-	glm::vec2							m_size;
 	Uint32								m_widgetOps;
 	
 	btIntrusivePtr<btEventHandler>		m_onClick;

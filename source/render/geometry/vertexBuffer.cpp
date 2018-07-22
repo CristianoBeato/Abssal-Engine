@@ -158,3 +158,51 @@ void btVertexBuffer::fillBufferData(const GLsizei elementsBuffSize, const GLvoid
 	//free vertex array
 	unbind();
 }
+
+btDrawBuffer::btDrawBuffer(void) :
+	m_numIndexes(0),
+	m_numIntances(0),
+	m_baseIndex(0),
+	m_baseVertex(0)
+{
+}
+
+btDrawBuffer::btDrawBuffer(	const Uint32 numIndices, 
+							const Uint32 numIntances,
+							const Uint32 baseIndex, 
+							const Uint32 baseVert):
+	m_numIndexes(numIndices),
+	m_numIntances(numIntances),
+	m_baseIndex(baseIndex),
+	m_baseVertex(baseVert)
+{
+}
+
+btDrawBuffer::~btDrawBuffer(void)
+{
+	clear();
+}
+
+void btDrawBuffer::clear(void)
+{
+}
+
+void btDrawBuffer::draw(GLenum mode)
+{
+	if (m_baseIndex > 0)
+	{
+		if (m_numIntances > 1)
+			glDrawElementsInstanced(mode, m_numIndexes, GL_UNSIGNED_INT, 0, m_numIntances);
+		else
+			glDrawElements(mode, m_numIndexes, GL_UNSIGNED_INT, 0);
+	}
+	else
+	{
+		if (m_numIntances > 1)
+			glDrawElementsInstancedBaseVertex(mode, m_numIndexes, GL_UNSIGNED_INT,
+			(void*)(sizeof(Uint32) * m_baseIndex), m_numIntances, m_baseVertex);
+		else
+			glDrawElementsBaseVertex(mode,m_numIndexes, GL_UNSIGNED_INT,
+			(void*)(sizeof(Uint32) * m_baseIndex), m_baseVertex);
+	}
+}
